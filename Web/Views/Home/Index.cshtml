@@ -32,19 +32,98 @@
         <div class="mb-5">
             <h3>Add your solution to question 2 here</h3>
 
-            <p><button>Increment number by 1</button></p>
-            <p><span>1</span></p>
+            <p><button onclick=increment()>Increment number by 1</button></p>
+            <p><span id="currentCount">1</span></p>
+            
             <hr/>
         </div>
 
         <div class="mb-5">
             <h3>Add your solution to question 3 here</h3>
             <hr/>
+
+            <button onclick="reversals()">Click here to do the reversals</button>
+            <input id="inputText" type="text" placeholder="Enter the string to be reversed here..." style="width:500px;"/>
+
+            <br />
+            <br />
+
+            <h3>First answer:</h3>
+            <p id="reversalOne"></p>
+
+            <br />
+
+            <h3>Second answer:</h3>
+            <p id="reversalTwo"></p>
         </div>
+
+        <hr />
 
         <div class="mb-5">
             <h4>How did you find this assessment?</h4>
             @* Write here *@
+
+            The assessment took me about 45 minutes. <br />
+
+            I found the assessment quite enjoyable, it was straightforward, but kept me on my toes at some points.<br /><br />
+
+            For the first question, I simply installed a NuGet package (Razor runtime compilation) and appended the call for this to the AddControllersWithViews() call that was already present on Program.cs. <br /><br />
+
+            For the second question, I used an ajax call to pass through the integer that was currently displayed to an endpoint on the home controller. Then, it was just a matter of incrementing it by 1. <br /><br />
+            
+            This updated figure was then returned in the success object of the ajax call, which was then used to update the text of the current count on the page.<br /><br />
+
+            For question three, I created a new view "Clicks". Then I created a new nav element called "Clicks". I attached a function to this element which would take the current count, and redirect to a new endpoint on the home controller Clicks. This returned the new view with the count stored in the ViewData object.<br /><br />
+
+            However, the question asks for the number of clicks, not the current number (which started at 1 by default). So, I substracted 1 from the current count data which would represent the number of clicks. Starting the counter at 0 would render this unneccesary.<br /><br />
+
+            Question four was a matter of deciding how to split the input string and how to join it back again. They needed to be split and joined without and with a space.<br /><br />
         </div>
     </div>
 </div>
+
+<script>
+   function increment() {
+        const count = Number.parseInt($("#currentCount").text());
+        console.log(count);
+
+        $.ajax({
+            url: '/Home/Increment',
+            type: 'POST',
+            data: {currentCount: count},
+            success: function(data) {
+                if (data.success) {
+                     $("#currentCount").text(data.updatedCount);
+                     return;
+                }
+
+                 console.log("Error updating the count.");
+            },
+            error: function() {
+                 console.log("Error updating the count.")
+            }
+                
+        })
+    }
+
+     function reversals() {
+         const inputText = $("#inputText").val();
+         if (inputText == "") {
+             $("#reversalOne").text("Please enter something in the input field.");
+             $("#reversalTwo").text("Please enter something in the input field.");
+             return;
+         }
+
+         const firstReversal = inputText.split('').reverse().join('');
+         console.log(firstReversal);
+        
+         const secondReversal = inputText.split(' ').reverse().join(' ');
+         console.log(secondReversal);
+
+         $("#reversalOne").text(firstReversal);
+         $("#reversalTwo").text(secondReversal);
+
+    }
+  
+
+</script>
