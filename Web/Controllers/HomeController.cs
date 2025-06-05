@@ -15,6 +15,7 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
+            ViewData["currentCount"] = HttpContext.Session.GetInt32("updatedCount") ?? 1;
             return View();
         }
 
@@ -23,9 +24,9 @@ namespace Web.Controllers
             return View();
         }
         
-        public IActionResult Clicks(int currentCount)
+        public IActionResult Clicks()
         {
-            ViewData["currentCount"] = currentCount;
+            ViewData["currentCount"] = HttpContext.Session.GetInt32("updatedCount") ?? 1;
 
             return View();
         }
@@ -40,6 +41,9 @@ namespace Web.Controllers
         public IActionResult Increment(int currentCount)
         {  
             int updatedCount = currentCount + 1;
+
+            // Store data in the session
+            HttpContext.Session.SetInt32("updatedCount", updatedCount);
 
             return Json(new { success = true, updatedCount });
         }

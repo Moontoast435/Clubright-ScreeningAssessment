@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var count = Convert.ToInt32((ViewData["currentCount"] ?? 1));
 }
 <div class="row">
     <div class="col-12">
@@ -33,7 +34,7 @@
             <h3>Add your solution to question 2 here</h3>
 
             <p><button onclick=increment()>Increment number by 1</button></p>
-            <p><span id="currentCount">1</span></p>
+            <p><span id="currentCount">@count</span></p>
             
             <hr/>
         </div>
@@ -73,11 +74,15 @@
             
             This updated figure was then returned in the success object of the ajax call, which was then used to update the text of the current count on the page.<br /><br />
 
-            For question three, I created a new view "Clicks". Then I created a new nav element called "Clicks". I attached a function to this element which would take the current count, and redirect to a new endpoint on the home controller Clicks. This returned the new view with the count stored in the ViewData object.<br /><br />
+            I also made use of HttpContext session variables to store the updated count. This is queried on page load to persist the updated count on page refresh or when redirecting back to the home page.<br /><br />
 
-            However, the question asks for the number of clicks, not the current number (which started at 1 by default). So, I substracted 1 from the current count data which would represent the number of clicks. Starting the counter at 0 would render this unneccesary.<br /><br />
+            For question three, I created a new view "Clicks". This view corresponds to the Clicks method in the home controller, which uses the same principle of session variables from question 2 and loads the current count into the Clicks view. This meant that the data would persist with redirecting across pages.<br /><br />
+
+            In my experience, using session variables this way is reliable and useful for storing temporary user data. It also allows you to manually control when the sessions will expire (I set it to 10 minutes). However, when working with larger applications, there can be drawbacks to using session states because it can be hard to keep track of which sessions are populated and when. This can be remedied by consolidating multiple sessions into one by grouping data together in an object, and storing it as a JSON string.<br /><br />
 
             Question four was a matter of deciding how to split the input string and how to join it back again. They needed to be split and joined without and with a space.<br /><br />
+
+
         </div>
     </div>
 </div>

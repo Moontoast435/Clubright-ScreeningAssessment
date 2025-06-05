@@ -28,7 +28,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>                        
                         <li class="nav-item">
-                            <a class="nav-link text-dark" onclick=getCurrentCountAndNavigateToClicks()>Clicks</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Clicks">Clicks</a>
                         </li>
                     </ul>
                 </div>
@@ -51,16 +51,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
-<script>
-
-    function getCurrentCountAndNavigateToClicks() {
-        const count = Number.parseInt($("#currentCount").text());
-        console.log(count);
-        if (window.location.href.includes("CounterChecker")) {
-            return;
-        }
-
-        window.location.href = 'Home/Clicks?currentCount=' + count;
-    }
-</script>
