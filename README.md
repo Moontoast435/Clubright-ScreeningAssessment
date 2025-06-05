@@ -1,1 +1,1 @@
-To complete this assessment, clone the repository then run the project.  Within the project there are 3 questions an the opportunity to write how it was.
+Assessment completed 04/06/2025 by Sean Malone. Please clone and build this project to see the results. Thanks
